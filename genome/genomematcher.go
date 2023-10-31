@@ -28,6 +28,10 @@ type GenomeMatch struct {
 	PercentMatch float64
 }
 
+func NewGenomeMatcher(minSearchLength int) GenomeMatcher {
+	return GenomeMatcher{minSearchLength: minSearchLength}
+}
+
 func (gm *GenomeMatcher) AddGenome(genome Genome) {
 	gm.genomes = append(gm.genomes, genome)
 

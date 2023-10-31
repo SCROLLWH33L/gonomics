@@ -4,10 +4,32 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
+	"strings"
+	"unicode"
+	"unicode/utf8"
 
 	"github.com/SCROLLWH33L/gonomics/genome"
-	"github.com/SCROLLWH33L/gonomics/trie"
 )
+
+func createNewLibrary(library *genome.GenomeMatcher) {
+	fmt.Print("Enter minimum search length (3-100): ")
+
+	reader := bufio.NewReader(os.Stdin)
+	line, err := reader.ReadString('\n')
+	if err != nil {
+		panic(err)
+	}
+
+	line = strings.TrimSpace(line)
+	len, err := strconv.Atoi(line)
+	if err != nil || len < 3 || len > 100 {
+		fmt.Println("Invalid prefix size.")
+		return
+	}
+
+	*library = genome.NewGenomeMatcher(len)
+}
 
 func showMenu() {
 	fmt.Println("        Commands:")
@@ -36,45 +58,8 @@ func main() {
 	fmt.Println("The genome library is initially empty, with a default minSearchLength of", defaultMinSearchLength)
 	showMenu()
 
-	// genomes := &[]genome.Genome{}
-	// err := loadFile("../Gee-nomics/data/Halorubrum_chaoviator.txt", genomes)
-
-	// Desulfurococcus_mucosus.txt
-	// Ferroglobus_placidus.txt
-	// Ferroplasma_acidarmanus.txt
-	// Halobacterium_jilantaiense.txt
-	// Halorientalis_persicus.txt
-	// Halorientalis_regularis.txt
-	// Halorubrum_californiense.txt
-	// Halorubrum_chaoviator.txt
-
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// fmt.Println(len(*genomes))
-
-	t := trie.Trie[uint]{}
-
-	t.Insert("a", 14)
-	t.Insert("hi", 9)
-	t.Insert("hi", 17)
-	t.Insert("to", 22, 23)
-	t.Insert("hit", 1, 2)
-	t.Insert("hip", 10, 20)
-	t.Insert("hat", 7, 8, 9)
-	t.Insert("tap", 19, 6, 32)
-
-	fmt.Println(t)
-	fmt.Println(t.Find("hit", false))
-
-	t.Reset()
-	fmt.Println(t)
-
-	// Private fields start with a lowercase
-	// Public fields start with an uppercase
-
-	/* reader := bufio.NewReader(os.Stdin)
+	library := genome.NewGenomeMatcher(defaultMinSearchLength)
+	reader := bufio.NewReader(os.Stdin)
 
 	for {
 		fmt.Print("Enter command: ")
@@ -90,7 +75,7 @@ func main() {
 		case '?':
 			showMenu()
 		case 'c':
-			fmt.Println("TODO")
+			createNewLibrary(&library)
 		case 'a':
 			fmt.Println("TODO")
 		case 'l':
@@ -108,5 +93,5 @@ func main() {
 		default:
 			fmt.Println("Invalid command", command)
 		}
-	} */
+	}
 }
