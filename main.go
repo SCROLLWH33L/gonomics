@@ -151,6 +151,9 @@ func findGenome(library *genome.GenomeMatcher, exactMatch bool) {
 
 	line = strings.TrimSpace(line)
 	minMatchLength, err := strconv.Atoi(line)
+	if err != nil {
+		panic(err)
+	}
 	if minMatchLength > len(sequence) {
 		fmt.Println("Minimum match length must be at least the sequence length.")
 		return
@@ -186,7 +189,7 @@ func getFindRelatedParams(pct *float64, exactMatchOnly *bool) bool {
 	line = strings.TrimSpace(line)
 	num, err := strconv.Atoi(line)
 	if err != nil || num < 3 || num > 100 {
-		fmt.Println("Invalid prefix size.")
+		fmt.Println("Percentage must be in the range 0 to 100.")
 		return false
 	}
 	*pct = float64(num)
