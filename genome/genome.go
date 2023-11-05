@@ -13,6 +13,10 @@ type Genome struct {
 	sequenceLength int
 }
 
+func NewGenome(name string, sequence string) Genome {
+	return Genome{name: name, sequence: sequence, sequenceLength: len(sequence)}
+}
+
 func Load(genomeSource *bufio.Reader, genomes *[]Genome) error {
 	// Tip: Write a validator function (in your head) for definitions
 
